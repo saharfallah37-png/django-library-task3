@@ -1,0 +1,97 @@
+{% extends "library/base.html" %}
+
+{% block title %}
+    سابقهٔ امانت | {{ member.name }}
+{% endblock %}
+
+{% block content %}
+
+    <h2>
+        سابقهٔ امانت:
+        <bdi>{{ member.name }}</bdi>
+    </h2>
+
+    <p>شمارهٔ عضویت: {{ member.id }}</p>
+
+    <p>
+        <a href="{% url 'member_list' %}">
+            بازگشت به فهرست اعضا
+        </a>
+    </p>
+
+    <hr>
+
+    <section>
+        <h3>
+            کتاب‌های در امانت
+            ({{ active_borrowings|length }})
+        </h3>
+
+        {% for borrowing in active_borrowings %}
+
+            <article>
+                <h4>
+                    <bdi>{{ borrowing.book_title }}</bdi>
+                </h4>
+
+                <p>
+                    تاریخ امانت:
+                    <bdi dir="ltr">
+                        {{ borrowing.borrowed_at }}
+                    </bdi>
+                </p>
+
+                <p>وضعیت: در امانت</p>
+            </article>
+
+            <hr>
+
+        {% empty %}
+
+            <p>این عضو در حال حاضر کتابی در امانت ندارد.</p>
+
+        {% endfor %}
+    </section>
+
+    <section>
+        <h3>
+            کتاب‌های بازگردانده‌شده
+            ({{ returned_borrowings|length }})
+        </h3>
+
+        {% for borrowing in returned_borrowings %}
+
+            <article>
+                <h4>
+                    <bdi>{{ borrowing.book_title }}</bdi>
+                </h4>
+
+                <p>
+                    تاریخ امانت:
+                    <bdi dir="ltr">
+                        {{ borrowing.borrowed_at }}
+                    </bdi>
+                </p>
+
+                <p>
+                    تاریخ بازگشت:
+                    <bdi dir="ltr">
+                        {{ borrowing.returned_at }}
+                    </bdi>
+                </p>
+
+                <p>وضعیت: بازگردانده‌شده</p>
+            </article>
+
+            <hr>
+
+        {% empty %}
+
+            <p>
+                هنوز کتاب بازگردانده‌شده‌ای برای این عضو ثبت نشده است.
+            </p>
+
+        {% endfor %}
+    </section>
+
+{% endblock %}

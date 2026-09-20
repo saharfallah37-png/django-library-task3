@@ -1,0 +1,52 @@
+{% extends "library/base.html" %}
+
+{% block title %}آمار | کتابخانهٔ من{% endblock %}
+
+{% block content %}
+
+    <h2>آمار کتابخانه</h2>
+
+    <dl>
+        <dt>تعداد کل کتاب‌ها</dt>
+        <dd>{{ total_books }}</dd>
+
+        <dt>تعداد اعضا</dt>
+        <dd>{{ total_members }}</dd>
+
+        <dt>کتاب‌های موجود</dt>
+        <dd>{{ available_books }}</dd>
+
+        <dt>کتاب‌های در امانت</dt>
+        <dd>{{ borrowed_books }}</dd>
+    </dl>
+
+    <hr>
+
+    <h3>محبوب‌ترین کتاب بر اساس تعداد دفعات امانت</h3>
+
+    {% if most_borrowed_book %}
+
+        <p>
+            عنوان:
+            <strong>
+                <bdi>{{ most_borrowed_book.title }}</bdi>
+            </strong>
+        </p>
+
+        <p>
+            نویسنده:
+            <bdi>{{ most_borrowed_book.author }}</bdi>
+        </p>
+
+        <p>
+            تعداد دفعات امانت:
+            {{ most_borrowed_book.borrow_count }}
+        </p>
+
+    {% else %}
+
+        <p>هنوز کتابی با سابقهٔ امانت وجود ندارد.</p>
+
+    {% endif %}
+
+{% endblock %}

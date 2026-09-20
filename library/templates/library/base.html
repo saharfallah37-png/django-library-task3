@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>{% block title %}کتابخانهٔ من{% endblock %}</title>
+</head>
+
+<body>
+    <header>
+        <h1>کتابخانهٔ من</h1>
+
+        <nav aria-label="منوی اصلی">
+            <a href="{% url 'home' %}">صفحهٔ اصلی</a>
+            |
+            <a href="{% url 'book_list' %}">کتاب‌ها</a>
+            |
+            <a href="{% url 'member_list' %}">اعضا</a>
+            |
+            <a href="{% url 'borrow_book' %}">امانت کتاب</a>
+            |
+            <a href="{% url 'statistics' %}">آمار</a>
+        </nav>
+
+        <hr>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <p>
+            تمرین ۳ — مدیریت کتابخانه با Django و داده‌های نمونه
+        </p>
+    </footer>
+</body>
+</html>

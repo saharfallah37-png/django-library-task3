@@ -1,0 +1,36 @@
+{% extends "library/base.html" %}
+
+{% block title %}اعضا | کتابخانهٔ من{% endblock %}
+
+{% block content %}
+
+    <h2>اعضای کتابخانه</h2>
+
+    <p>تعداد اعضا: {{ members|length }}</p>
+
+    {% for member in members %}
+
+        <article>
+            <h3><bdi>{{ member.name }}</bdi></h3>
+
+            <p>شمارهٔ عضویت: {{ member.id }}</p>
+
+            <p>
+                ایمیل:
+                <bdi dir="ltr">{{ member.email }}</bdi>
+            </p>
+
+            <a href="{% url 'member_history' member.id %}">
+                مشاهدهٔ سابقهٔ امانت
+            </a>
+        </article>
+
+        <hr>
+
+    {% empty %}
+
+        <p>هنوز عضوی ثبت نشده است.</p>
+
+    {% endfor %}
+
+{% endblock %}

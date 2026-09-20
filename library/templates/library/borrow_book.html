@@ -1,0 +1,80 @@
+{% extends "library/base.html" %}
+
+{% block title %}امانت کتاب | کتابخانهٔ من{% endblock %}
+
+{% block content %}
+
+    <h2>امانت گرفتن کتاب</h2>
+
+    <p>
+        کتاب و عضو دریافت‌کننده را انتخاب کنید.
+        فقط کتاب‌های موجود در فهرست نمایش داده می‌شوند.
+    </p>
+
+    {% if error %}
+        <p role="alert">
+            <strong>{{ error }}</strong>
+        </p>
+    {% endif %}
+
+    {% if books and members %}
+
+        <form method="post" action="{% url 'borrow_book' %}">
+            {% csrf_token %}
+
+            <p>
+                <label for="book">کتاب:</label>
+
+                <select id="book" name="book_id" required>
+                    <option value="">یک کتاب انتخاب کنید</option>
+
+                    {% for book in books %}
+                        <option
+                            value="{{ book.id }}"
+                            {% if selected_book_id == book.id|stringformat:"s" %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ book.title }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </p>
+
+            <p>
+                <label for="member">عضو:</label>
+
+                <select id="member" name="member_id" required>
+                    <option value="">یک عضو انتخاب کنید</option>
+
+                    {% for member in members %}
+                        <option
+                            value="{{ member.id }}"
+                            {% if selected_member_id == member.id|stringformat:"s" %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ member.name }} — شماره {{ member.id }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </p>
+
+            <button type="submit">ثبت امانت</button>
+        </form>
+
+    {% elif not members %}
+
+        <p>هنوز عضوی در کتابخانه وجود ندارد.</p>
+
+    {% else %}
+
+        <p>در حال حاضر کتاب موجودی برای امانت دادن نداریم.</p>
+
+    {% endif %}
+
+    <p>
+        <a href="{% url 'book_list' %}">بازگشت به فهرست کتاب‌ها</a>
+    </p>
+
+{% endblock %}

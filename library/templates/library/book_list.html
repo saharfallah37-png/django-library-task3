@@ -1,0 +1,93 @@
+{% extends "library/base.html" %}
+
+{% block title %}کتاب‌ها | کتابخانهٔ من{% endblock %}
+
+{% block content %}
+
+    <h2>فهرست کتاب‌ها</h2>
+
+    <form method="get" action="{% url 'book_list' %}">
+        <label for="search">
+            عنوان کتاب یا نام نویسنده:
+        </label>
+
+        <input
+            type="search"
+            id="search"
+            name="q"
+            value="{{ query }}"
+            placeholder="مثلاً Python"
+        >
+
+        <button type="submit">جست‌وجو</button>
+
+        <a href="{% url 'book_list' %}">نمایش همه</a>
+    </form>
+
+    {% if query %}
+        <p>
+            نتیجهٔ جست‌وجو برای:
+            <strong><bdi>{{ query }}</bdi></strong>
+        </p>
+    {% endif %}
+
+    <p>
+        تعداد کتاب‌های نمایش‌داده‌شده: {{ books|length }}
+    </p>
+
+    <hr>
+
+    {% for book in books %}
+
+        <article>
+            <h3><bdi>{{ book.title }}</bdi></h3>
+
+            <p>شناسه: {{ book.id }}</p>
+
+            <p>
+                نویسنده:
+                <bdi>{{ book.author }}</bdi>
+            </p>
+
+            <p>سال انتشار: {{ book.year }}</p>
+
+            <p>
+                تعداد دفعات امانت: {{ book.borrow_count }}
+            </p>
+
+            {% if book.available %}
+
+                <p>وضعیت: موجود</p>
+
+                <a href="{% url 'borrow_book' %}">
+                    رفتن به فرم امانت
+                </a>
+
+            {% else %}
+
+                <p>وضعیت: در امانت</p>
+
+                <form
+                    method="post"
+                    action="{% url 'return_book' book.id %}"
+                >
+                    {% csrf_token %}
+
+                    <button type="submit">
+                        بازگرداندن کتاب
+                    </button>
+                </form>
+
+            {% endif %}
+
+        </article>
+
+        <hr>
+
+    {% empty %}
+
+        <p>کتابی برای نمایش پیدا نشد.</p>
+
+    {% endfor %}
+
+{% endblock %}
